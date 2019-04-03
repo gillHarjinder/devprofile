@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { registeruser } from '../../actions/authActions';
+import { registerUser } from '../../actions/authActions';
 import TextFieldGroup from '../common/TextFieldGroup';
-
 
 class Register extends Component {
   constructor() {
@@ -26,32 +25,31 @@ class Register extends Component {
       this.props.history.push('/dashboard');
     }
   }
-  
-  componentWillReceiveProps(nextProps){
-    if(nextProps.errors){
-      this.setState({errors: nextProps.errors});
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
     }
   }
 
-  onChange = (e) => {
+  onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
   onSubmit(e) {
-      e.preventDefault();
+    e.preventDefault();
 
-      const newUser = {
-          name: this.state.name,
-          email: this.state.email,
-          password: this.state.password,
-          password2: this.state.password2
-      }
+    const newUser = {
+      name: this.state.name,
+      email: this.state.email,
+      password: this.state.password,
+      password2: this.state.password2
+    };
 
-      this.props.registeruser(newUser, this.props.history);
+    this.props.registerUser(newUser, this.props.history);
   }
 
   render() {
-
     const { errors } = this.state;
 
     return (
@@ -67,20 +65,18 @@ class Register extends Component {
                 <TextFieldGroup
                   placeholder="Name"
                   name="name"
-                  type="text"
                   value={this.state.name}
                   onChange={this.onChange}
                   error={errors.name}
                 />
                 <TextFieldGroup
-                  placeholder="Email Address"
+                  placeholder="Email"
                   name="email"
                   type="email"
                   value={this.state.email}
                   onChange={this.onChange}
                   error={errors.email}
-                  info="This site uses Gravatar so if you want a profile image,
-                    use a Gravatar email."
+                  info="This site uses Gravatar so if you want a profile image, use a Gravatar email"
                 />
                 <TextFieldGroup
                   placeholder="Password"
@@ -98,10 +94,7 @@ class Register extends Component {
                   onChange={this.onChange}
                   error={errors.password2}
                 />
-                <input
-                  type="submit"
-                  className="btn btn-info btn-block mt-4"
-                />
+                <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
             </div>
           </div>
@@ -112,17 +105,14 @@ class Register extends Component {
 }
 
 Register.propTypes = {
-  registeruser: PropTypes.func.isRequired,
+  registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors
 });
 
-export default connect(
-  mapStateToProps,
-  { registeruser }
-)(withRouter(Register));
+export default connect(mapStateToProps, { registerUser })(withRouter(Register));

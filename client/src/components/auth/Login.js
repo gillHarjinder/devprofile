@@ -17,14 +17,14 @@ class Login extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  componentDidMount(){
-    if(this.props.auth.isAuthenticated){
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
       this.props.history.push('/dashboard');
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.auth.isAuthenticated){
+    if (nextProps.auth.isAuthenticated) {
       this.props.history.push('/dashboard');
     }
 
@@ -33,20 +33,21 @@ class Login extends Component {
     }
   }
 
-  onChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  }
-
   onSubmit(e) {
     e.preventDefault();
 
     const userData = {
       email: this.state.email,
       password: this.state.password
-    }
+    };
 
     this.props.loginUser(userData);
   }
+
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
   render() {
     const { errors } = this.state;
 
@@ -59,7 +60,7 @@ class Login extends Component {
               <p className="lead text-center">
                 Sign in to your DevConnector account
               </p>
-              <form noValidate onSubmit={this.onSubmit}>
+              <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
                   placeholder="Email Address"
                   name="email"
@@ -68,6 +69,7 @@ class Login extends Component {
                   onChange={this.onChange}
                   error={errors.email}
                 />
+
                 <TextFieldGroup
                   placeholder="Password"
                   name="password"
@@ -76,10 +78,7 @@ class Login extends Component {
                   onChange={this.onChange}
                   error={errors.password}
                 />
-                <input
-                  type="submit"
-                  className="btn btn-info btn-block mt-4"
-                />
+                <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
             </div>
           </div>
@@ -100,7 +99,4 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(
-  mapStateToProps,
-  { loginUser }
-)(Login);
+export default connect(mapStateToProps, { loginUser })(Login);
